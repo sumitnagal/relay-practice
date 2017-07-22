@@ -13,7 +13,8 @@
     "server": "concurrently \"babel server --out-dir server-dist --watch\" \"nodemon --watch server-dist ./server-dist/index\"",
     "client": "concurrently \"npm run relay\" \"webpack-dev-server\"",
     "rest": "json-server --watch --port 3010 db.json",
-    "relay": "relay-compiler --watch --src ./client/js/ --schema ./schema.graphql"
+    "relay": "relay-compiler --watch --src ./client/js/ --schema ./schema.graphql",
+    "relay:once": "relay-compiler --src ./client/js/ --schema ./schema.graphql"
   },
   "repository": {
     "type": "git",
@@ -68,6 +69,8 @@
     "express-graphql": "0.6.6",
     "extract-text-webpack-plugin": "3.0.0",
     "file-loader": "0.11.2",
+    "found": "0.3.2",
+    "found-relay": "0.3.0-alpha.1",
     "graphql": "0.10.4",
     "graphql-relay": "0.5.2",
     "html-loader": "0.4.5",
@@ -78,6 +81,7 @@
     "node-fetch": "1.7.1",
     "node-sass": "4.5.3",
     "null-loader": "0.1.1",
+    "path-to-regexp": "1.7.0",
     "pluralize": "5.0.0",
     "postcss": "6.0.6",
     "postcss-loader": "2.0.6",

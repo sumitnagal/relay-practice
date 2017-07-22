@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { createFragmentContainer, graphql } from 'react-relay';
+
+import { connectionEdgesToArray } from '../utils';
+import { WidgetViewRowContainer } from './widget-view-row';
 
 export class WidgetTable extends React.Component {
 
   static propTypes = {
-    widgets: PropTypes.array,
-  };
-
-  static defaultProps = {
-    widgets: [],
+    viewer: PropTypes.shape({
+      widgets: PropTypes.shape({
+        edges: PropTypes.array
+      }),
+    }),
   };
 
   render() {
@@ -24,18 +28,32 @@ export class WidgetTable extends React.Component {
         </tr>
       </thead>
       <tbody>
-        {this.props.widgets.map(widget =>
-          <tr key={widget.id}>
-            <td>{widget.name}</td>
-            <td>{widget.description}</td>
-            <td>{widget.color}</td>
-            <td>{widget.size}</td>
-            <td>{widget.quantity}</td>
-          </tr>
-        )}
+        {do {
+          if (this.props.viewer.widgets == null) {
+            <tr><td colSpan="6">There are no widgets.</td></tr>;
+          } else {
+            // connectionEdgesToArray - simple util function to convert the 'edge'
+            // object structure to a normal array to use with presentation components
+            connectionEdgesToArray(this.props.viewer.widgets).map(widget => {
+              return <WidgetViewRowContainer key={widget.__id} widget={widget} />;
+            });
+          }
+        }}
       </tbody>
     </table>;
-
   }
 
 }
+
+export const WidgetTableContainer = createFragmentContainer(WidgetTable, graphql`
+  fragment widgetTable_viewer on Viewer {
+    widgets(first: 2147483647) @connection(key: "widgetTable_widgets")  {
+      edges {
+        node {
+          ...widgetViewRow_widget
+        }
+      }
+      totalCount
+    }
+  }
+`);

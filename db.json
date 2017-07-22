@@ -77,18 +77,18 @@
       "id": 5
     },
     {
-      "name": "a",
-      "description": "a",
-      "color": "a",
-      "size": "a",
+      "name": "b",
+      "description": "b",
+      "color": "b",
+      "size": "b",
       "quantity": 0,
       "id": 6
     },
     {
-      "name": "x",
-      "description": "x",
-      "color": "x",
-      "size": "x",
+      "name": "c",
+      "description": "c",
+      "color": "c",
+      "size": "c",
       "quantity": 0,
       "id": 7
     }

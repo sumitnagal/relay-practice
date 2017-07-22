@@ -8,17 +8,12 @@
 
 /*::
 import type {ConcreteFragment} from 'relay-runtime';
-export type widgetsAppContainer_viewer = {|
+export type widgetHome_viewer = {|
   +id: string;
   +widgets: ?{|
     +edges: ?$ReadOnlyArray<?{|
       +node: ?{|
         +id: string;
-        +name: ?string;
-        +description: ?string;
-        +color: ?string;
-        +size: ?string;
-        +quantity: ?number;
       |};
     |}>;
     +totalCount: ?number;
@@ -42,7 +37,7 @@ const fragment /*: ConcreteFragment*/ = {
       }
     ]
   },
-  "name": "widgetsAppContainer_viewer",
+  "name": "widgetHome_viewer",
   "selections": [
     {
       "kind": "ScalarField",
@@ -56,7 +51,7 @@ const fragment /*: ConcreteFragment*/ = {
       "alias": "widgets",
       "args": null,
       "concreteType": "WidgetConnection",
-      "name": "__widgetsAppContainer_widgets_connection",
+      "name": "__widgetTable_widgets_connection",
       "plural": false,
       "selections": [
         {
@@ -81,41 +76,6 @@ const fragment /*: ConcreteFragment*/ = {
                   "args": null,
                   "name": "id",
                   "storageKey": null
-                },
-                {
-                  "kind": "ScalarField",
-                  "alias": null,
-                  "args": null,
-                  "name": "name",
-                  "storageKey": null
-                },
-                {
-                  "kind": "ScalarField",
-                  "alias": null,
-                  "args": null,
-                  "name": "description",
-                  "storageKey": null
-                },
-                {
-                  "kind": "ScalarField",
-                  "alias": null,
-                  "args": null,
-                  "name": "color",
-                  "storageKey": null
-                },
-                {
-                  "kind": "ScalarField",
-                  "alias": null,
-                  "args": null,
-                  "name": "size",
-                  "storageKey": null
-                },
-                {
-                  "kind": "ScalarField",
-                  "alias": null,
-                  "args": null,
-                  "name": "quantity",
-                  "storageKey": null
                 }
               ],
               "storageKey": null
@@ -132,6 +92,11 @@ const fragment /*: ConcreteFragment*/ = {
         }
       ],
       "storageKey": null
+    },
+    {
+      "kind": "FragmentSpread",
+      "name": "widgetTable_viewer",
+      "args": null
     }
   ],
   "type": "Viewer"

@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 719d025738c515100ee99727370cc81a
+ * @relayHash 14a6377dc4f872fa513e728ba57fd000
  */
 
 /* eslint-disable */
@@ -9,31 +9,49 @@
 
 /*::
 import type {ConcreteBatch} from 'relay-runtime';
-export type appQueryResponse = {|
-  +viewer: ?{| |};
+export type homePageQueryResponse = {|
+  +viewer: ?{|
+    +id: string;
+  |};
 |};
 */
 
 
 /*
-query appQuery {
+query homePageQuery {
   viewer {
-    ...widgetsAppContainer_viewer
     id
+    ...widgetHome_viewer
   }
 }
 
-fragment widgetsAppContainer_viewer on Viewer {
+fragment widgetHome_viewer on Viewer {
   id
   widgets(first: 2147483647) {
     edges {
       node {
         id
-        name
-        description
-        color
-        size
-        quantity
+        __typename
+      }
+      cursor
+    }
+    totalCount
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+  }
+  ...widgetTable_viewer
+}
+
+fragment widgetTable_viewer on Viewer {
+  widgets(first: 2147483647) {
+    edges {
+      node {
+        ...widgetViewRow_widget
+        id
         __typename
       }
       cursor
@@ -47,6 +65,15 @@ fragment widgetsAppContainer_viewer on Viewer {
     }
   }
 }
+
+fragment widgetViewRow_widget on Widget {
+  id
+  name
+  description
+  color
+  size
+  quantity
+}
 */
 
 const batch /*: ConcreteBatch*/ = {
@@ -54,7 +81,7 @@ const batch /*: ConcreteBatch*/ = {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "appQuery",
+    "name": "homePageQuery",
     "selections": [
       {
         "kind": "LinkedField",
@@ -65,8 +92,15 @@ const batch /*: ConcreteBatch*/ = {
         "plural": false,
         "selections": [
           {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "id",
+            "storageKey": null
+          },
+          {
             "kind": "FragmentSpread",
-            "name": "widgetsAppContainer_viewer",
+            "name": "widgetHome_viewer",
             "args": null
           }
         ],
@@ -78,11 +112,11 @@ const batch /*: ConcreteBatch*/ = {
   "id": null,
   "kind": "Batch",
   "metadata": {},
-  "name": "appQuery",
+  "name": "homePageQuery",
   "query": {
     "argumentDefinitions": [],
     "kind": "Root",
-    "name": "appQuery",
+    "name": "homePageQuery",
     "operation": "query",
     "selections": [
       {
@@ -142,6 +176,13 @@ const batch /*: ConcreteBatch*/ = {
                         "kind": "ScalarField",
                         "alias": null,
                         "args": null,
+                        "name": "__typename",
+                        "storageKey": null
+                      },
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
                         "name": "name",
                         "storageKey": null
                       },
@@ -171,13 +212,6 @@ const batch /*: ConcreteBatch*/ = {
                         "alias": null,
                         "args": null,
                         "name": "quantity",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "__typename",
                         "storageKey": null
                       }
                     ],
@@ -255,7 +289,7 @@ const batch /*: ConcreteBatch*/ = {
             ],
             "handle": "connection",
             "name": "widgets",
-            "key": "widgetsAppContainer_widgets",
+            "key": "widgetTable_widgets",
             "filters": null
           }
         ],
@@ -263,7 +297,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query appQuery {\n  viewer {\n    ...widgetsAppContainer_viewer\n    id\n  }\n}\n\nfragment widgetsAppContainer_viewer on Viewer {\n  id\n  widgets(first: 2147483647) {\n    edges {\n      node {\n        id\n        name\n        description\n        color\n        size\n        quantity\n        __typename\n      }\n      cursor\n    }\n    totalCount\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n"
+  "text": "query homePageQuery {\n  viewer {\n    id\n    ...widgetHome_viewer\n  }\n}\n\nfragment widgetHome_viewer on Viewer {\n  id\n  widgets(first: 2147483647) {\n    edges {\n      node {\n        id\n        __typename\n      }\n      cursor\n    }\n    totalCount\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n  ...widgetTable_viewer\n}\n\nfragment widgetTable_viewer on Viewer {\n  widgets(first: 2147483647) {\n    edges {\n      node {\n        ...widgetViewRow_widget\n        id\n        __typename\n      }\n      cursor\n    }\n    totalCount\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment widgetViewRow_widget on Widget {\n  id\n  name\n  description\n  color\n  size\n  quantity\n}\n"
 };
 
 module.exports = batch;
