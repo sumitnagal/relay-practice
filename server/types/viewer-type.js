@@ -21,13 +21,12 @@ export const viewerType = new GraphQLObjectType({
       args: connectionArgs,
       resolve: (_, args, { baseUrl }) => {
 
+        // create widget data object to retrieve data from rest service
         const widgetData = new WidgetData(baseUrl);
 
         // must return a promise to delay resolution until the async
         // operation has completed
         return widgetData.all().then(widgetsData => {
-
-          console.log(widgetsData);
 
           // create an array of widget models
           const widgets = widgetsData.map(w => Object.assign(new Widget(), w));

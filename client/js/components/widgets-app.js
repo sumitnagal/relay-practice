@@ -18,17 +18,26 @@ export class WidgetsApp extends React.Component {
 
   constructor(props) {
     super(props);
+
+    console.log(this.props);
   }
 
   addWidget = widget => {
     insertWidget(
+      // provided by relay import
       this.props.relay.environment,
+      // normal widget object provided by widget form
       widget,
+      // viewer prop which was populated by the graphql query defined
+      // in widgets-app-container
       this.props.viewer,
     );
   }
 
   render() {
+
+    // connectionEdgesToArray - simple util function to convert the 'edge'
+    // object structure to a normal array to use with presentation components
 
     return <section>
       <header>

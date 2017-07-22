@@ -1,6 +1,14 @@
 import { commitMutation, graphql } from 'react-relay';
 import { ConnectionHandler } from 'relay-runtime';
 
+// the new name of the operation must correspond to the file name of this file
+// insert-widget-mutation => insertWidgetMutation
+// the operation name must end in 'Mutation', so the file name must end in mutation
+// exclamation point means required
+// the insertWidget parameter name must be input, this is required
+// for the widget edge, the type name, cursor, info and all widget date (under node)
+// should be pulled
+// for the viewer, the id plus the total count of widgets is needed
 const mutation = graphql`
   mutation insertWidgetMutation($input: InsertWidgetInput!) {
     insertWidget(input:$input) {
@@ -18,31 +26,42 @@ const mutation = graphql`
       }
       viewer {
         id
+        widgets {
+          totalCount
+        }
       }
     }
   }
 `;
 
-const sharedUpdater = (store, viewer, newWidgetEdge) => {
+// use by both the optimistic updater and real updated to make changes
+// to the relay store
+const sharedUpdater = (store, viewer, newWidgetEdge, widgetTotalCount) => {
 
   // load the viewer by id
+  // viewer proxy is needed to get the widgets connection off the viewer
   const viewerProxy = store.get(viewer.id);
 
   // get the connection of viewer to widgets
   // the second argument is a connection key and it connects to the key in widget-app-container.js
-  const conn = ConnectionHandler.getConnection(viewerProxy,'widgetsAppContainer_widgets');
+  const conn = ConnectionHandler.getConnection(viewerProxy, 'widgetsAppContainer_widgets');
+
+  // VERY IMPORTANT, the setValue's arguments are reversed from standard
+  // programming practice
+  // update the total count of widgets
+  conn.setValue(widgetTotalCount, 'totalCount');
 
   // inserts the edge at the end of the connection
   ConnectionHandler.insertEdgeAfter(conn, newWidgetEdge);
 };
 
+// used to generate mutation ids for the updater and optimistic updater
 let clientMutationId = 0;
 
-export const insertWidget = (environment, widget, viewer) => {
-
-  console.log(widget);
-
-  return commitMutation(
+// "friendly" function called by the component event handler to do
+// the insert widget operation
+export const insertWidget = (environment, widget, viewer) =>
+  commitMutation(
     // environment configuration for the network and store
     environment,
     {
@@ -57,10 +76,10 @@ export const insertWidget = (environment, widget, viewer) => {
           clientMutationId: String(clientMutationId++),
         },
       },
-      onCompleted: () => {
-        console.log('Success!');
-      },
-      onError: err => console.error(err),
+      // returns the response on completed inserts
+      onCompleted: res => console.log('Insert Widget Success!', res),
+      // returns an error on failed inserts
+      onError: err => console.error('Insert Widget Error!', err),
       // updates the store with the returned payload
       // store is the one configured for the QueryRenderer?
       updater: store => {
@@ -72,8 +91,12 @@ export const insertWidget = (environment, widget, viewer) => {
         // get the new edge
         const newWidgetEdge = payload.getLinkedRecord('widgetEdge');
 
+        // get the new widget count from the payload
+        const widgetTotalCount = payload.getLinkedRecord('viewer')
+          .getLinkedRecord('widgets').getValue('totalCount');
+
         // updates the store with the new widget edge
-        sharedUpdater(store, viewer, newWidgetEdge);
+        sharedUpdater(store, viewer, newWidgetEdge, widgetTotalCount);
       },
       // performs optimistic updates while waiting for the result from the
       // real update operation
@@ -106,5 +129,3 @@ export const insertWidget = (environment, widget, viewer) => {
       },
     },
   );
-
-};
