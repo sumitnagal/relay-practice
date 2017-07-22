@@ -9,7 +9,7 @@ import { insertWidgetInputType } from './widget-input-types';
 
 export const insertWidgetMutationType = mutationWithClientMutationId({
 
-  name: 'InsertWidgetType',
+  name: 'InsertWidget',
 
   inputFields: {
     widget: { type: insertWidgetInputType }
