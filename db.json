@@ -75,6 +75,22 @@
       "size": "a",
       "quantity": 0,
       "id": 5
+    },
+    {
+      "name": "a",
+      "description": "a",
+      "color": "a",
+      "size": "a",
+      "quantity": 0,
+      "id": 6
+    },
+    {
+      "name": "x",
+      "description": "x",
+      "color": "x",
+      "size": "x",
+      "quantity": 0,
+      "id": 7
     }
   ],
   "people": [

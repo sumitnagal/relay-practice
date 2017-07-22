@@ -9,6 +9,10 @@ import { ConnectionHandler } from 'relay-runtime';
 // for the widget edge, the type name, cursor, info and all widget date (under node)
 // should be pulled
 // for the viewer, the id plus the total count of widgets is needed
+// from schema
+// type Mutation {
+//   insertWidget(input: InsertWidgetInput!): InsertWidgetPayload
+// }
 const mutation = graphql`
   mutation insertWidgetMutation($input: InsertWidgetInput!) {
     insertWidget(input:$input) {
@@ -36,11 +40,11 @@ const mutation = graphql`
 
 // use by both the optimistic updater and real updated to make changes
 // to the relay store
-const sharedUpdater = (store, viewer, newWidgetEdge, widgetTotalCount) => {
+const sharedUpdater = (source, viewer, newWidgetEdge, widgetTotalCount) => {
 
-  // load the viewer by id
+  // load the viewer by id from the source
   // viewer proxy is needed to get the widgets connection off the viewer
-  const viewerProxy = store.get(viewer.id);
+  const viewerProxy = source.get(viewer.id);
 
   // get the connection of viewer to widgets
   // the second argument is a connection key and it connects to the key in widget-app-container.js
@@ -68,6 +72,13 @@ export const insertWidget = (environment, widget, viewer) =>
       // mutation query
       mutation,
       // mutation query input argument
+      // these variables are used to populate the mutation
+      // the shape of input must correspond to InsertWidgetInput
+      // from schema:
+      // input InsertWidgetInput {
+      //   widget: InputInsertWidget
+      //   clientMutationId: String
+      // }
       variables: {
         input: {
           // the widget to insert
@@ -81,12 +92,19 @@ export const insertWidget = (environment, widget, viewer) =>
       // returns an error on failed inserts
       onError: err => console.error('Insert Widget Error!', err),
       // updates the store with the returned payload
-      // store is the one configured for the QueryRenderer?
-      updater: store => {
+      // source is from the store configured in the environment for the query renderer
+      updater: source => {
 
         // get root field of the return value of the insertWidget mutation
         // payload is the result data returned from the insert
-        const payload = store.getRootField('insertWidget');
+        const payload = source.getRootField('insertWidget');
+
+        // payload will follow the schema
+        // type InsertWidgetPayload {
+        //   viewer: Viewer
+        //   widgetEdge: WidgetEdge
+        //   clientMutationId: String
+        // }        
 
         // get the new edge
         const newWidgetEdge = payload.getLinkedRecord('widgetEdge');
@@ -96,16 +114,16 @@ export const insertWidget = (environment, widget, viewer) =>
           .getLinkedRecord('widgets').getValue('totalCount');
 
         // updates the store with the new widget edge
-        sharedUpdater(store, viewer, newWidgetEdge, widgetTotalCount);
+        sharedUpdater(source, viewer, newWidgetEdge, widgetTotalCount);
       },
       // performs optimistic updates while waiting for the result from the
       // real update operation
-      // store is the one configured for the QueryRenderer?
-      optimisticUpdater: store => {
+      // source is from the store configured in the environment for the query renderer
+      optimisticUpdater: source => {
 
         // create new widget node
         const newNodeId = 'client:newWidget:' + clientMutationId++;
-        const newNode = store.create(newNodeId, 'Widget');
+        const newNode = source.create(newNodeId, 'Widget');
 
         // set the values on the node
         newNode.setValue(newNodeId, 'id');
@@ -116,7 +134,7 @@ export const insertWidget = (environment, widget, viewer) =>
         newNode.setValue(widget.quantity, 'quantity');
 
         // create a new widget edge
-        const newEdge = store.create(
+        const newEdge = source.create(
           'client:newEdge:' + clientMutationId++,
           'widgetEdge'
         );
@@ -125,7 +143,7 @@ export const insertWidget = (environment, widget, viewer) =>
         newEdge.setLinkedRecord(newNode, 'node');
 
         // update the store with the new widget edge
-        sharedUpdater(store, viewer, newEdge);
+        sharedUpdater(source, viewer, newEdge);
       },
     },
   );

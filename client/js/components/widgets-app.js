@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { RecordSourceInspector } from 'relay-runtime';
 
 import { WidgetTable } from './widget-table';
 import { WidgetForm } from './widget-form';
@@ -10,6 +11,7 @@ import { insertWidget } from '../mutations/insert-widget-mutation';
 export class WidgetsApp extends React.Component {
 
   static propTypes = {
+    appTitle: PropTypes.string,
     viewer: PropTypes.object,
     relay: PropTypes.shape({
       environment: PropTypes.object.isRequired,
@@ -19,7 +21,18 @@ export class WidgetsApp extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props);
+    // store which contains store functions and contains the source which is the data
+    const store = this.props.relay.environment.getStore();
+    // source is the data itself (think of it as state)
+    const source = store.getSource();
+    // provides debugging to view the store
+    const inspector = new RecordSourceInspector(source);
+    // all records with ids
+    console.log(inspector.getNodes());
+    // all records with or without ids
+    console.log(inspector.getRecords());
+    // get by an id, and inspect
+    console.log(inspector.get('Vmlld2VyOjE=').inspect());
   }
 
   addWidget = widget => {
@@ -41,7 +54,7 @@ export class WidgetsApp extends React.Component {
 
     return <section>
       <header>
-        <h1>Widgets App</h1>
+        <h1>{this.props.appTitle}</h1>
       </header>
       <WidgetTable widgets={connectionEdgesToArray(this.props.viewer.widgets)} />
       <div>

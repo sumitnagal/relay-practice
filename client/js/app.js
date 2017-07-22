@@ -10,6 +10,8 @@ import { environment } from './environment';
 
 // environment - the environment object imported from the environment file
 // query - top level query, references the query in 'widgets-app-container.js'
+// note: viewer is no longer required in Relay Modern, it was a requirement
+// of relay classic, but not relay modern 
 // variables - are just for the query
 // render - either display loading or the container component
 ReactDOM.render(
@@ -40,7 +42,9 @@ ReactDOM.render(
       } else if (props) {
         // the 'props.viewer' corresponds to the
         // fragment 'widgetsAppContainer_viewer'
-        return <WidgetsAppContainer viewer={props.viewer} />;
+        // additional non-relay data can be passed in here
+        // incorporating Redux can be used to manage non-relay data
+        return <WidgetsAppContainer viewer={props.viewer} appTitle="Widgets Tool" />;
       } else {
         // graphql has not returned yet, just say loading
         return <div>Loading...</div>;
