@@ -44,9 +44,14 @@ export class BaseData {
   }
 
   delete(id) {
-    return fetch(this.getElementURL(id), {
-      method: 'DELETE'
-    })
-      .then(res => res.json());
+
+    let deletedRecord;
+
+    return this.one(id)
+      .then(record => deletedRecord = record)
+      .then(() => fetch(this.getElementURL(id), {
+        method: 'DELETE'
+      }))
+      .then(() => deletedRecord);
   }
 }
