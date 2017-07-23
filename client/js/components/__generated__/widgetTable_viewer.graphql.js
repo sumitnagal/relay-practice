@@ -11,7 +11,9 @@ import type {ConcreteFragment} from 'relay-runtime';
 export type widgetTable_viewer = {|
   +widgets: ?{|
     +edges: ?$ReadOnlyArray<?{|
-      +node: ?{| |};
+      +node: ?{|
+        +id: string;
+      |};
     |}>;
     +totalCount: ?number;
   |};
@@ -61,8 +63,20 @@ const fragment /*: ConcreteFragment*/ = {
               "plural": false,
               "selections": [
                 {
+                  "kind": "ScalarField",
+                  "alias": null,
+                  "args": null,
+                  "name": "id",
+                  "storageKey": null
+                },
+                {
                   "kind": "FragmentSpread",
                   "name": "widgetViewRow_widget",
+                  "args": null
+                },
+                {
+                  "kind": "FragmentSpread",
+                  "name": "widgetEditRow_widget",
                   "args": null
                 }
               ],

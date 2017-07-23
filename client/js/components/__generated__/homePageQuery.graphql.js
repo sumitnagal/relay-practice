@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 14a6377dc4f872fa513e728ba57fd000
+ * @relayHash a4d11bde5d9c2c393199a01382cb2e71
  */
 
 /* eslint-disable */
@@ -50,8 +50,9 @@ fragment widgetTable_viewer on Viewer {
   widgets(first: 2147483647) {
     edges {
       node {
-        ...widgetViewRow_widget
         id
+        ...widgetViewRow_widget
+        ...widgetEditRow_widget
         __typename
       }
       cursor
@@ -67,6 +68,15 @@ fragment widgetTable_viewer on Viewer {
 }
 
 fragment widgetViewRow_widget on Widget {
+  id
+  name
+  description
+  color
+  size
+  quantity
+}
+
+fragment widgetEditRow_widget on Widget {
   id
   name
   description
@@ -297,7 +307,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query homePageQuery {\n  viewer {\n    id\n    ...widgetHome_viewer\n  }\n}\n\nfragment widgetHome_viewer on Viewer {\n  id\n  widgets(first: 2147483647) {\n    edges {\n      node {\n        id\n        __typename\n      }\n      cursor\n    }\n    totalCount\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n  ...widgetTable_viewer\n}\n\nfragment widgetTable_viewer on Viewer {\n  widgets(first: 2147483647) {\n    edges {\n      node {\n        ...widgetViewRow_widget\n        id\n        __typename\n      }\n      cursor\n    }\n    totalCount\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment widgetViewRow_widget on Widget {\n  id\n  name\n  description\n  color\n  size\n  quantity\n}\n"
+  "text": "query homePageQuery {\n  viewer {\n    id\n    ...widgetHome_viewer\n  }\n}\n\nfragment widgetHome_viewer on Viewer {\n  id\n  widgets(first: 2147483647) {\n    edges {\n      node {\n        id\n        __typename\n      }\n      cursor\n    }\n    totalCount\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n  ...widgetTable_viewer\n}\n\nfragment widgetTable_viewer on Viewer {\n  widgets(first: 2147483647) {\n    edges {\n      node {\n        id\n        ...widgetViewRow_widget\n        ...widgetEditRow_widget\n        __typename\n      }\n      cursor\n    }\n    totalCount\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment widgetViewRow_widget on Widget {\n  id\n  name\n  description\n  color\n  size\n  quantity\n}\n\nfragment widgetEditRow_widget on Widget {\n  id\n  name\n  description\n  color\n  size\n  quantity\n}\n"
 };
 
 module.exports = batch;

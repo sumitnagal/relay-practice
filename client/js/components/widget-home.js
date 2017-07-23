@@ -5,6 +5,9 @@ import { createFragmentContainer, graphql } from 'react-relay';
 
 import { WidgetTableContainer } from './widget-table';
 
+import { updateWidget } from '../mutations/update-widget-mutation';
+import { deleteWidget } from '../mutations/delete-widget-mutation';
+
 export class WidgetHome extends React.Component {
 
   static propTypes = {
@@ -16,6 +19,10 @@ export class WidgetHome extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      editWidgetId: '',
+    };
 
     // // store which contains store functions and contains the source which is the data
     // const store = this.props.relay.environment.getStore();
@@ -31,10 +38,48 @@ export class WidgetHome extends React.Component {
     // console.log(inspector.get('Vmlld2VyOjE=').inspect());
   }
 
+  editWidget = editWidgetId => {
+    this.setState({
+      editWidgetId,
+    });
+  };
+
+  deleteWidget = widgetId => {
+    deleteWidget(
+      this.props.relay.environment,
+      widgetId,
+      this.props.viewer,
+    );
+    this.setState({
+      editWidgetId: '',
+    });
+  };
+
+  saveWidget = widget => {
+    
+    updateWidget(
+      this.props.relay.environment,
+      widget,
+      this.props.viewer,
+    );
+
+    this.setState({
+      editWidgetId: '',
+    });
+  };
+
+  cancelWidget = () => {
+    this.setState({
+      editWidgetId: '',
+    });
+  };
+
   render() {
 
     return <section>
-      <WidgetTableContainer viewer={this.props.viewer} />
+      <WidgetTableContainer viewer={this.props.viewer} editWidgetId={this.state.editWidgetId}
+        onEditWidget={this.editWidget} onDeleteWidget={this.deleteWidget}
+        onSaveWidget={this.saveWidget} onCancelWidget={this.cancelWidget} />
       <div>
         Widget Count: {this.props.viewer.widgets && this.props.viewer.widgets.totalCount}
       </div> 
