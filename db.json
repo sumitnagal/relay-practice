@@ -47,7 +47,7 @@
       "description": "A medium, blue widget.",
       "color": "blue",
       "size": "medium",
-      "quantity": 15,
+      "quantity": 14,
       "ownerId": 2
     },
     {
@@ -65,7 +65,7 @@
       "description": "A tiny, orange widget.",
       "color": "orange",
       "size": "tiny",
-      "quantity": 10,
+      "quantity": 11,
       "ownerId": 3
     }
   ],

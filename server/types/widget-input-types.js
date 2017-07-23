@@ -1,4 +1,4 @@
-import { GraphQLInputObjectType, GraphQLString, GraphQLInt } from 'graphql';
+import { GraphQLInputObjectType, GraphQLString, GraphQLInt, GraphQLID } from 'graphql';
 
 const fields = () => ({
   name: { type: GraphQLString },
@@ -14,9 +14,9 @@ export const insertWidgetInputType = new GraphQLInputObjectType({
   fields,
 });
 
-export const replaceWidgetInputType = new GraphQLInputObjectType({
-  name: 'InputReplaceWidget',
-  description: 'Input type for replacements',
-  fields: () => Object.assign(fields(), { id: { type: GraphQLInt } }),
+export const updateWidgetInputType = new GraphQLInputObjectType({
+  name: 'InputUpdateWidget',
+  description: 'Input type for updates',
+  fields: () => Object.assign(fields(), { id: { type: GraphQLID } }),
 });
 

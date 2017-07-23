@@ -60,7 +60,6 @@ export class WidgetHome extends React.Component {
     updateWidget(
       this.props.relay.environment,
       widget,
-      this.props.viewer,
     );
 
     this.setState({
