@@ -32,7 +32,7 @@ export const updateWidget = (environment, widget) => {
           widget
         }
       },
-      optimisticResponse: () => getOptimisticResponse(widget),
+      optimisticResponse: getOptimisticResponse(widget),
     }
   );
 
