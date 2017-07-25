@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash f4f20066a474b72317c38182862793c1
+ * @relayHash 6bdd11676494fbff96597b8d69d26980
  */
 
 /* eslint-disable */
@@ -29,7 +29,7 @@ fragment widgetCreate_viewer on Viewer {
 }
 
 fragment widgetTable_viewer on Viewer {
-  widgets(first: 2147483647) {
+  widgets(first: 3) {
     edges {
       node {
         id
@@ -131,7 +131,7 @@ const batch /*: ConcreteBatch*/ = {
               {
                 "kind": "Literal",
                 "name": "first",
-                "value": 2147483647,
+                "value": 3,
                 "type": "Int"
               }
             ],
@@ -264,7 +264,7 @@ const batch /*: ConcreteBatch*/ = {
                 "storageKey": null
               }
             ],
-            "storageKey": "widgets{\"first\":2147483647}"
+            "storageKey": "widgets{\"first\":3}"
           },
           {
             "kind": "LinkedHandle",
@@ -273,7 +273,7 @@ const batch /*: ConcreteBatch*/ = {
               {
                 "kind": "Literal",
                 "name": "first",
-                "value": 2147483647,
+                "value": 3,
                 "type": "Int"
               }
             ],
@@ -287,7 +287,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query createPageQuery {\n  viewer {\n    ...widgetCreate_viewer\n    ...widgetTable_viewer\n    id\n  }\n}\n\nfragment widgetCreate_viewer on Viewer {\n  id\n}\n\nfragment widgetTable_viewer on Viewer {\n  widgets(first: 2147483647) {\n    edges {\n      node {\n        id\n        ...widgetViewRow_widget\n        ...widgetEditRow_widget\n        __typename\n      }\n      cursor\n    }\n    totalCount\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment widgetViewRow_widget on Widget {\n  id\n  name\n  description\n  color\n  size\n  quantity\n}\n\nfragment widgetEditRow_widget on Widget {\n  id\n  name\n  description\n  color\n  size\n  quantity\n}\n"
+  "text": "query createPageQuery {\n  viewer {\n    ...widgetCreate_viewer\n    ...widgetTable_viewer\n    id\n  }\n}\n\nfragment widgetCreate_viewer on Viewer {\n  id\n}\n\nfragment widgetTable_viewer on Viewer {\n  widgets(first: 3) {\n    edges {\n      node {\n        id\n        ...widgetViewRow_widget\n        ...widgetEditRow_widget\n        __typename\n      }\n      cursor\n    }\n    totalCount\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment widgetViewRow_widget on Widget {\n  id\n  name\n  description\n  color\n  size\n  quantity\n}\n\nfragment widgetEditRow_widget on Widget {\n  id\n  name\n  description\n  color\n  size\n  quantity\n}\n"
 };
 
 module.exports = batch;

@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash cd199467ac122ef5856e8bea63ca661f
+ * @relayHash 36f5e8b71091e9efe5af826416769c22
  */
 
 /* eslint-disable */
@@ -9,32 +9,24 @@
 
 /*::
 import type {ConcreteBatch} from 'relay-runtime';
-export type homePageQueryResponse = {|
-  +viewer: ?{|
-    +id: string;
-  |};
+export type widgetTableRefetchQueryResponse = {|
+  +viewer: ?{| |};
 |};
 */
 
 
 /*
-query homePageQuery {
+query widgetTableRefetchQuery(
+  $count: Int
+) {
   viewer {
+    ...widgetTable_viewer_yu5n1
     id
-    ...widgetHome_viewer
   }
 }
 
-fragment widgetHome_viewer on Viewer {
-  id
-  widgetsStats: widgets {
-    totalCount
-  }
-  ...widgetTable_viewer
-}
-
-fragment widgetTable_viewer on Viewer {
-  widgets(first: 3) {
+fragment widgetTable_viewer_yu5n1 on Viewer {
+  widgets(first: $count) {
     edges {
       node {
         id
@@ -75,10 +67,17 @@ fragment widgetEditRow_widget on Widget {
 
 const batch /*: ConcreteBatch*/ = {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": [
+      {
+        "kind": "LocalArgument",
+        "name": "count",
+        "type": "Int",
+        "defaultValue": null
+      }
+    ],
     "kind": "Fragment",
     "metadata": null,
-    "name": "homePageQuery",
+    "name": "widgetTableRefetchQuery",
     "selections": [
       {
         "kind": "LinkedField",
@@ -89,16 +88,16 @@ const batch /*: ConcreteBatch*/ = {
         "plural": false,
         "selections": [
           {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "id",
-            "storageKey": null
-          },
-          {
             "kind": "FragmentSpread",
-            "name": "widgetHome_viewer",
-            "args": null
+            "name": "widgetTable_viewer",
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "count",
+                "variableName": "count",
+                "type": null
+              }
+            ]
           }
         ],
         "storageKey": null
@@ -109,11 +108,18 @@ const batch /*: ConcreteBatch*/ = {
   "id": null,
   "kind": "Batch",
   "metadata": {},
-  "name": "homePageQuery",
+  "name": "widgetTableRefetchQuery",
   "query": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": [
+      {
+        "kind": "LocalArgument",
+        "name": "count",
+        "type": "Int",
+        "defaultValue": null
+      }
+    ],
     "kind": "Root",
-    "name": "homePageQuery",
+    "name": "widgetTableRefetchQuery",
     "operation": "query",
     "selections": [
       {
@@ -125,38 +131,13 @@ const batch /*: ConcreteBatch*/ = {
         "plural": false,
         "selections": [
           {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "id",
-            "storageKey": null
-          },
-          {
-            "kind": "LinkedField",
-            "alias": "widgetsStats",
-            "args": null,
-            "concreteType": "WidgetConnection",
-            "name": "widgets",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "totalCount",
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          },
-          {
             "kind": "LinkedField",
             "alias": null,
             "args": [
               {
-                "kind": "Literal",
+                "kind": "Variable",
                 "name": "first",
-                "value": 3,
+                "variableName": "count",
                 "type": "Int"
               }
             ],
@@ -289,16 +270,16 @@ const batch /*: ConcreteBatch*/ = {
                 "storageKey": null
               }
             ],
-            "storageKey": "widgets{\"first\":3}"
+            "storageKey": null
           },
           {
             "kind": "LinkedHandle",
             "alias": null,
             "args": [
               {
-                "kind": "Literal",
+                "kind": "Variable",
                 "name": "first",
-                "value": 3,
+                "variableName": "count",
                 "type": "Int"
               }
             ],
@@ -306,13 +287,20 @@ const batch /*: ConcreteBatch*/ = {
             "name": "widgets",
             "key": "widgetTable_widgets",
             "filters": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "id",
+            "storageKey": null
           }
         ],
         "storageKey": null
       }
     ]
   },
-  "text": "query homePageQuery {\n  viewer {\n    id\n    ...widgetHome_viewer\n  }\n}\n\nfragment widgetHome_viewer on Viewer {\n  id\n  widgetsStats: widgets {\n    totalCount\n  }\n  ...widgetTable_viewer\n}\n\nfragment widgetTable_viewer on Viewer {\n  widgets(first: 3) {\n    edges {\n      node {\n        id\n        ...widgetViewRow_widget\n        ...widgetEditRow_widget\n        __typename\n      }\n      cursor\n    }\n    totalCount\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment widgetViewRow_widget on Widget {\n  id\n  name\n  description\n  color\n  size\n  quantity\n}\n\nfragment widgetEditRow_widget on Widget {\n  id\n  name\n  description\n  color\n  size\n  quantity\n}\n"
+  "text": "query widgetTableRefetchQuery(\n  $count: Int\n) {\n  viewer {\n    ...widgetTable_viewer_yu5n1\n    id\n  }\n}\n\nfragment widgetTable_viewer_yu5n1 on Viewer {\n  widgets(first: $count) {\n    edges {\n      node {\n        id\n        ...widgetViewRow_widget\n        ...widgetEditRow_widget\n        __typename\n      }\n      cursor\n    }\n    totalCount\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment widgetViewRow_widget on Widget {\n  id\n  name\n  description\n  color\n  size\n  quantity\n}\n\nfragment widgetEditRow_widget on Widget {\n  id\n  name\n  description\n  color\n  size\n  quantity\n}\n"
 };
 
 module.exports = batch;

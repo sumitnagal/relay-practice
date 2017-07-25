@@ -67,6 +67,60 @@
       "size": "tiny",
       "quantity": 11,
       "ownerId": 3
+    },
+    {
+      "id": 5,
+      "name": "Large Purple Widget",
+      "description": "A large, purple widget.",
+      "color": "purple",
+      "size": "large",
+      "quantity": 6,
+      "ownerId": 3
+    },
+    {
+      "id": 6,
+      "name": "Small Yellow Widget",
+      "description": "A small, yellow widget.",
+      "color": "yellow",
+      "size": "small",
+      "quantity": 13,
+      "ownerId": 1
+    },
+    {
+      "id": 7,
+      "name": "Medium Black Widget",
+      "description": "A medium, black widget.",
+      "color": "black",
+      "size": "medium",
+      "quantity": 12,
+      "ownerId": 2
+    },
+    {
+      "id": 8,
+      "name": "Huge Brown Widget",
+      "description": "A huge, brown widget.",
+      "color": "brown",
+      "size": "huge",
+      "quantity": 18,
+      "ownerId": 2
+    },
+    {
+      "id": 9,
+      "name": "Medium Orange Widget",
+      "description": "A medium, orange widget.",
+      "color": "orange",
+      "size": "medium",
+      "quantity": 17,
+      "ownerId": 2
+    },
+    {
+      "id": 10,
+      "name": "Large Blue Widget",
+      "description": "A large, blue widget.",
+      "color": "blue",
+      "size": "large",
+      "quantity": 5,
+      "ownerId": 2
     }
   ],
   "people": [

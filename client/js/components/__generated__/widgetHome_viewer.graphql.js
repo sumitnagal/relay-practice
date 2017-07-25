@@ -10,12 +10,7 @@
 import type {ConcreteFragment} from 'relay-runtime';
 export type widgetHome_viewer = {|
   +id: string;
-  +widgets: ?{|
-    +edges: ?$ReadOnlyArray<?{|
-      +node: ?{|
-        +id: string;
-      |};
-    |}>;
+  +widgetsStats: ?{|
     +totalCount: ?number;
   |};
 |};
@@ -25,18 +20,7 @@ export type widgetHome_viewer = {|
 const fragment /*: ConcreteFragment*/ = {
   "argumentDefinitions": [],
   "kind": "Fragment",
-  "metadata": {
-    "connection": [
-      {
-        "count": null,
-        "cursor": null,
-        "direction": "forward",
-        "path": [
-          "widgets"
-        ]
-      }
-    ]
-  },
+  "metadata": null,
   "name": "widgetHome_viewer",
   "selections": [
     {
@@ -48,41 +32,12 @@ const fragment /*: ConcreteFragment*/ = {
     },
     {
       "kind": "LinkedField",
-      "alias": "widgets",
+      "alias": "widgetsStats",
       "args": null,
       "concreteType": "WidgetConnection",
-      "name": "__widgetTable_widgets_connection",
+      "name": "widgets",
       "plural": false,
       "selections": [
-        {
-          "kind": "LinkedField",
-          "alias": null,
-          "args": null,
-          "concreteType": "WidgetEdge",
-          "name": "edges",
-          "plural": true,
-          "selections": [
-            {
-              "kind": "LinkedField",
-              "alias": null,
-              "args": null,
-              "concreteType": "Widget",
-              "name": "node",
-              "plural": false,
-              "selections": [
-                {
-                  "kind": "ScalarField",
-                  "alias": null,
-                  "args": null,
-                  "name": "id",
-                  "storageKey": null
-                }
-              ],
-              "storageKey": null
-            }
-          ],
-          "storageKey": null
-        },
         {
           "kind": "ScalarField",
           "alias": null,

@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql } from 'react-relay';
 // import { RecordSourceInspector } from 'relay-runtime';
 
-import { WidgetTableContainer } from './widget-table';
+import {
+  // WidgetTableContainer,
+  WidgetTableRefetchContainer
+} from './widget-table';
 
 import { updateWidget } from '../mutations/update-widget-mutation';
 import { deleteWidget } from '../mutations/delete-widget-mutation';
@@ -76,11 +79,11 @@ export class WidgetHome extends React.Component {
   render() {
 
     return <section>
-      <WidgetTableContainer viewer={this.props.viewer} editWidgetId={this.state.editWidgetId}
+      <WidgetTableRefetchContainer viewer={this.props.viewer} editWidgetId={this.state.editWidgetId}
         onEditWidget={this.editWidget} onDeleteWidget={this.deleteWidget}
         onSaveWidget={this.saveWidget} onCancelWidget={this.cancelWidget} />
       <div>
-        Widget Count: {this.props.viewer.widgets && this.props.viewer.widgets.totalCount}
+        Widget Count: {this.props.viewer.widgetsStats && this.props.viewer.widgetsStats.totalCount}
       </div> 
     </section>;
   }
@@ -115,12 +118,7 @@ export const WidgetHomeContainer = createFragmentContainer(WidgetHome, {
   viewer: graphql`
     fragment widgetHome_viewer on Viewer {
       id
-      widgets(first: 2147483647) @connection(key: "widgetTable_widgets")  {
-        edges {
-          node {
-            id
-          }
-        }
+      widgetsStats: widgets {
         totalCount
       }
       ...widgetTable_viewer
